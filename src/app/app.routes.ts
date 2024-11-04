@@ -1,3 +1,14 @@
-import { Routes } from '@angular/router';
+// src/app/app.routes.ts
 
-export const routes: Routes = [];
+import { Routes } from '@angular/router';
+import { CatalogComponent } from './components/catalog/catalog.component';
+import { CartComponent } from './components/cart/cart.component';
+import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
+import { LoginComponent } from './components/login/login.component';
+
+export const routes: Routes = [
+  { path: '', component: CatalogComponent },        // Главная страница (каталог)
+  { path: 'cart', component: CartComponent },       // Страница корзины
+  { path: 'admin', component: AdminPanelComponent }, // Админ-панель
+  { path: 'login', component: LoginComponent }      // Авторизация
+];

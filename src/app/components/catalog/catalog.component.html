@@ -1,0 +1,19 @@
+<mat-toolbar color="primary">
+    <span>Каталог блюд</span>
+  </mat-toolbar>
+  
+  <div class="catalog-container">
+    <mat-card *ngFor="let dish of dishes" class="catalog-card">
+      <img mat-card-image [src]="dish.imageUrl" alt="{{ dish.name }}">
+      <mat-card-title>{{ dish.name }}</mat-card-title>
+      <mat-card-subtitle>{{ dish.price | currency }}</mat-card-subtitle>
+      <mat-card-content>
+        <p>{{ dish.description }}</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="addToCart(dish)">
+          Добавить в корзину
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>

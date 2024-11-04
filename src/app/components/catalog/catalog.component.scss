@@ -1,0 +1,17 @@
+.catalog-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    padding: 16px;
+}
+
+.catalog-card {
+    width: 300px;
+}
+
+mat-card-title,
+mat-card-subtitle {
+    display: block;
+    text-align: center;
+}
