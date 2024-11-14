@@ -1,9 +1,18 @@
-<mat-toolbar color="primary">
+<!-- Верхняя панель с серым фоном -->
+<mat-toolbar color="primary" class="top-toolbar" *ngIf="!isAdminPage()">
   <span>Меню ресторана</span>
-  <button mat-button routerLink="/">Каталог</button>
-  <button mat-button routerLink="/cart">Корзина</button>
-  <button mat-button routerLink="/admin">Админ-панель</button>
-  <button mat-button routerLink="/login">Войти</button>
+  <button mat-icon-button (click)="toggleMenu()" class="burger-button">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <button mat-button routerLink="/admin">Войти</button>
 </mat-toolbar>
+
+<!-- Отображение меню с категориями -->
+<app-menu
+*ngIf="menuVisible"
+[categories]="categories"
+(closeMenu)="toggleMenu()"
+(scrollToCategory)="scrollToCategory($event)">
+</app-menu>
 
 <router-outlet></router-outlet>

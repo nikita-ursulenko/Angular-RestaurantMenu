@@ -1,0 +1,11 @@
+<div class="menu-overlay" @menuAnimation>
+  <div class="menu-content">
+    <button mat-icon-button (click)="closeMenu.emit()">
+      <mat-icon>close</mat-icon>
+    </button>
+    <h2>Категории</h2>
+    <button *ngFor="let category of categories" mat-button (click)="selectCategory(category)">
+      {{ category }}
+    </button>
+  </div>
+</div>

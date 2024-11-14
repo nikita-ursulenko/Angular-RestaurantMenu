@@ -1,1 +1,48 @@
-<p>admin-panel works!</p>
+<h2>Управление блюдами</h2>
+
+<button class="add-dish-button" (click)="openAddDishModal()">Добавить блюдо</button>
+
+<div *ngIf="isModalOpen" class="modal">
+  <div class="modal-content">
+    <span class="close" (click)="closeAddDishModal()">&times;</span>
+    <h3>{{ editMode ? 'Редактировать блюдо' : 'Добавить новое блюдо' }}</h3>
+    <form (ngSubmit)="saveDish()" [formGroup]="dishForm">
+      <label>Название:</label>
+      <input formControlName="name" required>
+
+      <label>Описание:</label>
+      <input formControlName="description" required>
+
+      <label>Цена:</label>
+      <input type="number" formControlName="price" required>
+
+      <label>Загрузите изображение:</label>
+      <input type="file" (change)="onFileSelected($event)" accept="image/*" required>
+
+      <label>Категория:</label>
+      <input formControlName="category" required>
+
+      <button type="submit">{{ editMode ? 'Сохранить изменения' : 'Добавить блюдо' }}</button>
+    </form>
+  </div>
+</div>
+
+<div *ngFor="let category of getCategories()">
+  <h3>{{ category }}</h3>
+  <div class="card-grid">
+    <div class="card" *ngFor="let dish of getDishesByCategory(category)">
+      <div *ngIf="dish.name && dish.description && dish.price !== null && dish.imageUrl && dish.category">
+        <img [src]="dish.imageUrl" alt="{{ dish.name }}" class="card-img">
+        <div class="card-body">
+          <h4>{{ dish.name }}</h4>
+          <p>{{ dish.description }}</p>
+          <p class="price">{{ dish.price | currency }}</p>
+          <div class="button-group">
+            <button (click)="editDish(dish)">Редактировать</button>
+            <button (click)="deleteDish(dish.id)">Удалить</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

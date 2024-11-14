@@ -24,6 +24,9 @@
     "@angular/platform-server": "^18.2.0",
     "@angular/router": "^18.2.0",
     "@angular/ssr": "^18.2.11",
+    "@firebasegen/default-connector": "file:dataconnect-generated/js/default-connector",
+    "cloudinary": "^2.5.1",
+    "dotenv": "^16.4.5",
     "express": "^4.18.2",
     "firebase": "^10.14.1",
     "rxjs": "~7.8.0",
@@ -45,5 +48,4 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "~5.5.2"
   }
-  
 }

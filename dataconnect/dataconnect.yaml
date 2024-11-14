@@ -1,0 +1,12 @@
+specVersion: "v1beta"
+serviceId: "restaurant-menu"
+location: "us-central1"
+schema:
+  source: "./schema"
+  datasource:
+    postgresql:
+      database: "fdcdb"
+      cloudSql:
+        instanceId: "restaurant-menu-fdc"
+      # schemaValidation: "COMPATIBLE"
+connectorDirs: ["./connector"]

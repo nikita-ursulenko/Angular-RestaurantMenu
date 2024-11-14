@@ -5,8 +5,8 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideFirebaseApp, initializeApp, getApps } from '@angular/fire/app';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { provideStorage, getStorage } from '@angular/fire/storage';
+import { provideAuth, getAuth } from '@angular/fire/auth'; // Не забудьте про аутентификацию
 import { routes } from './app.routes';
-import { provideAuth, getAuth } from '@angular/fire/auth'; // Импортируйте модуль аутентификации
 
 
 const firebaseConfig = {
@@ -28,7 +28,7 @@ export const appConfig: ApplicationConfig = {
       if (!getApps().length) {
         return initializeApp(firebaseConfig);
       } else {
-        return getApps()[0]; // Если приложение уже существует, возвращаем его
+        return getApps()[0];
       }
     }),
     provideFirestore(() => getFirestore()),
