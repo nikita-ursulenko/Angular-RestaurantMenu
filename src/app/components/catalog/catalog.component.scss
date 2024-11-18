@@ -16,9 +16,3 @@
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Две колонки для мобильных, больше для компьютера */
     gap: 16px;
 }
-
-.catalog-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}

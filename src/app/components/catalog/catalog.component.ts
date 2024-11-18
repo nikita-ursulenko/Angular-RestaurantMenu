@@ -1,20 +1,11 @@
 import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
-import { MatToolbarModule } from '@angular/material/toolbar';
-
 import { MatButtonModule } from '@angular/material/button';
-import { RouterModule } from '@angular/router'; 
+import { RouterModule } from '@angular/router';
 import { PipesModule } from '../../pipes/pipes.module'; 
-
-interface Dish {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  imageUrl: string;
-  category: string;
-}
+import { FirestoreTestService } from '../../services/firestore-test.service';  // Импортируем сервис для работы с Firestore
+import { Dish } from '../../interfaces/dish.interface'; // Импортируем интерфейс для блюд
 
 @Component({
   selector: 'app-catalog',
@@ -26,35 +17,40 @@ interface Dish {
     MatCardModule,
     MatButtonModule,
     RouterModule,
-    MatToolbarModule,
     PipesModule
   ]
 })
 export class CatalogComponent implements OnInit {
-  dishes: Dish[] = [
-    { id: 1, name: 'Пицца Маргарита', description: 'Классическая пицца с томатами и сыром.', price: 300, imageUrl: '/assets/pizza_margarita.jpg', category: 'Пицца' },
-    { id: 2, name: 'Салат Цезарь', description: 'Салат с курицей, сыром и соусом Цезарь.', price: 200, imageUrl: '/assets/salat_caesar.jpg', category: 'Салат' },
-    { id: 3, name: 'Пицца Ранчо', description: 'Классическая пицца с томатами и сыром.', price: 100, imageUrl: '/assets/pizza_rancho.jpg', category: 'Пицца' },
-    { id: 4, name: 'Пицца Фатто', description: 'Пицца с курицей и сыром.', price: 200, imageUrl: '/assets/pizza_fatto.jpg', category: 'Пицца' },
-    { id: 5, name: 'Горячее Блюдо', description: 'Горячее мясное блюдо.', price: 250, imageUrl: '/assets/hot_dish.jpg', category: 'Горячее' },
-    { id: 6, name: 'Напиток Кола', description: 'Газированный напиток.', price: 50, imageUrl: '/assets/drink_cola.jpg', category: 'Напитки' },
-  ];
+  dishes: Dish[] = []; // Массив для хранения всех блюд
+  categories: string[] = []; // Массив для хранения категорий
 
   @Output() categoriesEvent = new EventEmitter<string[]>();
 
+  constructor(private firestoreService: FirestoreTestService) {}
+
   ngOnInit() {
-    this.sendUniqueCategories();
+    // Загружаем блюда из Firebase при инициализации компонента
+    this.firestoreService.getDishes((dishes: Dish[]) => {
+      this.dishes = dishes;
+      this.sendUniqueCategories();  // Отправляем уникальные категории
+    });
   }
 
+  // Получаем уникальные категории
   getUniqueCategories(): string[] {
-    return Array.from(new Set(this.dishes.map(dish => dish.category)));
+    return Array.from(new Set(this.dishes
+      .map(dish => dish.category)  // Извлекаем категории из блюд
+      .filter(category => category)) // Фильтруем пустые значения
+    );
   }
 
+  // Отправляем уникальные категории родительскому компоненту
   sendUniqueCategories() {
-    const uniqueCategories = Array.from(new Set(this.dishes.map(dish => dish.category)));
-    this.categoriesEvent.emit(uniqueCategories);
+    this.categories = this.getUniqueCategories();
+    this.categoriesEvent.emit(this.categories);
   }
 
+  // Добавление блюда в корзину
   addToCart(dish: Dish) {
     console.log(`${dish.name} добавлен в корзину!`);
   }

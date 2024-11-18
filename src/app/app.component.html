@@ -1,18 +1,24 @@
 <!-- Верхняя панель с серым фоном -->
-<mat-toolbar color="primary" class="top-toolbar" *ngIf="!isAdminPage()">
-  <span>Меню ресторана</span>
-  <button mat-icon-button (click)="toggleMenu()" class="burger-button">
-    <mat-icon>menu</mat-icon>
-  </button>
-  <button mat-button routerLink="/admin">Войти</button>
+<mat-toolbar class="top-toolbar" *ngIf="!isLoginPage() && !isAdminPage()" [ngClass]="{ 'admin-page': isAdminPage() }">
+  <div class="container-top-toolbar">
+    <span>Меню ресторана</span>
+    <div class="togle-menu">
+      <button mat-icon-button (click)="toggleMenu()" class="burger-button">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </div>
+  </div>
 </mat-toolbar>
 
-<!-- Отображение меню с категориями -->
-<app-menu
-*ngIf="menuVisible"
-[categories]="categories"
-(closeMenu)="toggleMenu()"
-(scrollToCategory)="scrollToCategory($event)">
-</app-menu>
+<!-- Добавляем класс main-content для контейнера, который должен быть ниже панели -->
+<div class="main-content">
+  <!-- Отображение меню с категориями -->
+  <app-menu
+    *ngIf="menuVisible"
+    [categories]="categories"
+    (closeMenu)="toggleMenu()"
+    (scrollToCategory)="scrollToCategory($event)">
+  </app-menu>
 
-<router-outlet></router-outlet>
+  <router-outlet></router-outlet>
+</div>

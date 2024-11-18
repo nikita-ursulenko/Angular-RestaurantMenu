@@ -1,48 +1,89 @@
-<h2>Управление блюдами</h2>
+<div class="admin-dashboard">
+  <!-- Бургер-кнопка -->
+  <button class="burger-button" (click)="toggleSidebar()">
+    
+    <mat-icon>menu</mat-icon>
+  </button>
 
-<button class="add-dish-button" (click)="openAddDishModal()">Добавить блюдо</button>
+  <!-- Выдвигающееся боковое меню -->
+  <aside class="sidebar" [class.open]="isSidebarOpen">
+    <div class="logo">
+      <h2>Панель управления</h2>
+    </div>
+    <div class="user-info">
+      <div class="user-avatar">
+        <mat-icon>account_circle</mat-icon>
+        <p>{{ user.email }}</p>
+      </div>
+    </div>
+    <nav class="menu">
+      <ul>
+        <li><a (click)="navigateTo('dishes')">Управление блюдами</a></li>
+        <li><a (click)="navigateTo('categories')">Управление категориями</a></li>
+        <li><a (click)="navigateTo('settings')">Настройки</a></li>
+      </ul>
+    </nav>
+  </aside>
 
-<div *ngIf="isModalOpen" class="modal">
-  <div class="modal-content">
-    <span class="close" (click)="closeAddDishModal()">&times;</span>
-    <h3>{{ editMode ? 'Редактировать блюдо' : 'Добавить новое блюдо' }}</h3>
-    <form (ngSubmit)="saveDish()" [formGroup]="dishForm">
-      <label>Название:</label>
-      <input formControlName="name" required>
-
-      <label>Описание:</label>
-      <input formControlName="description" required>
-
-      <label>Цена:</label>
-      <input type="number" formControlName="price" required>
-
-      <label>Загрузите изображение:</label>
-      <input type="file" (change)="onFileSelected($event)" accept="image/*" required>
-
-      <label>Категория:</label>
-      <input formControlName="category" required>
-
-      <button type="submit">{{ editMode ? 'Сохранить изменения' : 'Добавить блюдо' }}</button>
-    </form>
-  </div>
-</div>
-
-<div *ngFor="let category of getCategories()">
-  <h3>{{ category }}</h3>
-  <div class="card-grid">
-    <div class="card" *ngFor="let dish of getDishesByCategory(category)">
-      <div *ngIf="dish.name && dish.description && dish.price !== null && dish.imageUrl && dish.category">
-        <img [src]="dish.imageUrl" alt="{{ dish.name }}" class="card-img">
-        <div class="card-body">
-          <h4>{{ dish.name }}</h4>
-          <p>{{ dish.description }}</p>
-          <p class="price">{{ dish.price | currency }}</p>
-          <div class="button-group">
-            <button (click)="editDish(dish)">Редактировать</button>
-            <button (click)="deleteDish(dish.id)">Удалить</button>
+  <!-- Основной контент -->
+  <main class="main-content">
+    <div *ngIf="currentSection === 'dishes'">
+      <h2>Управление блюдами</h2>
+      <button class="btn" (click)="openAddDishModal()">Добавить блюдо</button>
+      <div class="categories" *ngFor="let category of getCategories()">
+        <h3>{{ category }}</h3>
+        <div class="card-grid">
+          <div class="card" *ngFor="let dish of getDishesByCategory(category)">
+            <img [src]="dish.imageUrl" alt="{{ dish.name }}" class="card-img">
+            <div class="card-body">
+              <h4>{{ dish.name }}</h4>
+              <p>{{ dish.description }}</p>
+              <p class="price">{{ dish.price | currency }}</p>
+              <div class="button-group">
+                <button class="btn" (click)="editDish(dish)">Редактировать</button>
+                <button class="btn" (click)="deleteDish(dish.id)">Удалить</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+
+    <div *ngIf="currentSection === 'categories'">
+      <h2>Управление категориями</h2>
+      <!-- Добавьте контент для категорий -->
+    </div>
+
+    <div *ngIf="currentSection === 'settings'">
+      <h2>Настройки</h2>
+      <button class="btn logout-button" (click)="logout()">Выйти</button>
+    </div>
+
+
+    <div *ngIf="isModalOpen" class="modal">
+      <div class="modal-content">
+        <span class="close" (click)="closeAddDishModal()">&times;</span>
+        <h3>{{ editMode ? 'Редактировать блюдо' : 'Добавить новое блюдо' }}</h3>
+        <form (ngSubmit)="saveDish()" [formGroup]="dishForm">
+          <label>Название:</label>
+          <input formControlName="name" required>
+    
+          <label>Описание:</label>
+          <input formControlName="description" required>
+    
+          <label>Цена:</label>
+          <input type="number" formControlName="price" required>
+    
+          <label>Загрузите изображение:</label>
+          <input type="file" (change)="onFileSelected($event)" accept="image/*" required>
+    
+          <label>Категория:</label>
+          <input formControlName="category" required>
+    
+          <button class="btn submit-btn" type="submit">{{ editMode ? 'Сохранить изменения' : 'Добавить блюдо' }}</button>
+        </form>
+      </div>
+    </div>
+    
+  </main>
 </div>

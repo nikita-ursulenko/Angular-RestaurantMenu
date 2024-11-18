@@ -8,6 +8,8 @@ import { MenuComponent } from './components/menu/menu.component';
 import { CatalogComponent } from './components/catalog/catalog.component';
 import { FirestoreTestService } from './services/firestore-test.service'; 
 import { Router } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 
 @Component({
   selector: 'app-root',
@@ -21,6 +23,8 @@ import { Router } from '@angular/router';
     MatIconModule,
     RouterModule,
     MenuComponent,
+    FormsModule, // Добавляем FormsModule для ngModel
+    ReactiveFormsModule, // Для работы с реактивными формами
 
   ]
 })
@@ -30,17 +34,22 @@ export class AppComponent implements OnInit {
   menuVisible = false;
   categories: string[] = [];
 
-  constructor(private router: Router, private firestoreTestService: FirestoreTestService) {}
-
+  constructor(private router: Router, private firestoreTestService: FirestoreTestService) {
+    
+  }
+  
   isAdminPage(): boolean {
-    console.log('Текущий URL:', this.router.url); // Проверяем URL для админ-страницы
-    return this.router.url.includes('/admin');
+    return this.router.url.startsWith('/admin');
+  }
+  isLoginPage(): boolean {
+    return this.router.url === '/login';
   }
 
   ngOnInit() {
     console.log('AppComponent загружен'); // Проверка, что компонент загружен корректно
     // Логика инициализации
   }
+  
 
   toggleMenu() {
     this.menuVisible = !this.menuVisible;

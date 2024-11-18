@@ -1,132 +1,461 @@
-/* Общие стили */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4; /* Светлый фон для всего тела */
-}
+.admin-dashboard {
+    position: relative;
+    font-family: "Roboto", sans-serif;
+    height: 100vh;
 
-/* Стили для заголовка */
-h2 {
-    text-align: center; /* Центрируем заголовок */
-    margin-bottom: 20px; /* Отступ снизу */
-}
+    .burger-button {
+        position: fixed; /* Фиксируем кнопку относительно окна браузера */
+        top: 1rem; /* Отступ сверху */
+        left: 1rem; /* Отступ слева */
+        z-index: 1100; /* Поверх всех остальных элементов */
+        background: #2c3e50; /* Цвет кнопки */
+        color: white;
+        border: none;
+        width: 40px; /* Размер кнопки */
+        height: 40px;
+        border-radius: 50%; /* Делаем её круглой */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2); /* Тень */
+        transition:
+            background 0.3s ease,
+            transform 0.2s ease; /* Анимация при наведении */
 
-/* Кнопка добавления блюда */
-.add-dish-button {
-    display: block;
-    margin: 20px auto; /* Центрируем кнопку */
-    padding: 10px 20px; /* Внутренние отступы */
-    background-color: #007bff; /* Цвет кнопки */
-    color: white; /* Цвет текста */
-    border: none; /* Убираем границу */
-    border-radius: 5px; /* Закругленные углы */
-    cursor: pointer; /* Курсор указатель */
-    transition: background-color 0.3s; /* Плавный переход цвета фона */
-}
+        &:hover {
+            background: #34495e; /* Цвет кнопки при наведении */
+            transform: scale(1.1); /* Увеличение при наведении */
+        }
 
-/* Изменение цвета кнопки при наведении */
-.add-dish-button:hover {
-    background-color: #0056b3; /* Цвет кнопки при наведении */
-}
+        mat-icon {
+            font-size: 2rem; /* Размер иконки внутри кнопки */
+            display: flex;
+            align-items: center;
+        }
+    }
 
-/* Стили для модального окна */
+    /* Боковое меню */
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: -500px; /* Скрытое положение */
+        height: 100%;
+        width: 300px;
+        background: #2c3e50;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        padding: 1rem;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+        z-index: 1000;
+        transition: left 0.3s ease;
+
+        /* Выдвинутое положение */
+        &.open {
+            left: 0;
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            color: #ecf0f1;
+            letter-spacing: 1px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            background: #34495e;
+            border-radius: 8px;
+
+            .user-avatar {
+                display: flex;
+                align-items: center;
+
+                mat-icon {
+                    font-size: 2rem;
+                    color: #ecf0f1;
+                    margin-right: 1rem;
+                }
+
+                p {
+                    font-size: 1rem;
+                    color: white;
+                    margin: 0;
+                }
+            }
+        }
+
+        .menu {
+            flex-grow: 1;
+
+            ul {
+                list-style: none;
+                padding: 0;
+
+                li {
+                    margin-bottom: 1rem;
+
+                    a {
+                        color: white;
+                        text-decoration: none;
+                        font-size: 1rem;
+                        padding: 0.5rem 1rem;
+                        display: block;
+                        border-radius: 4px;
+                        transition: all 0.3s ease;
+
+                        &:hover {
+                            background: #3b5998;
+                            transform: translateX(5px);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /* Основной контент */
+    .main-content {
+        flex-grow: 1;
+        background: #f5f5f5;
+        padding: 2rem;
+        margin-left: 0; /* Убираем отступ */
+        transition: margin-left 0.3s ease;
+
+        &.sidebar-open {
+            margin-left: 300px; /* Отступ для открытого меню */
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .add-dish-button {
+            background: #27ae60;
+            color: white;
+            padding: 0.8rem 1.6rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+
+            &:hover {
+                background: #2ecc71;
+                transform: translateY(-2px);
+            }
+        }
+
+        .categories {
+            margin-top: 2rem;
+
+            h3 {
+                font-size: 1.5rem;
+                color: #34495e;
+                margin-bottom: 1rem;
+            }
+
+            .card-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 1.5rem;
+
+                .card {
+                    background: white;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                    overflow: hidden;
+                    transition: all 0.3s ease;
+
+                    &:hover {
+                        transform: translateY(-5px);
+                        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+                    }
+
+                    .card-img {
+                        width: 100%;
+                        height: 150px;
+                        object-fit: cover;
+                    }
+
+                    .card-body {
+                        padding: 1rem;
+
+                        h4 {
+                            margin: 0;
+                            font-size: 1.2rem;
+                            color: #2c3e50;
+                        }
+
+                        p {
+                            margin: 0.5rem 0;
+                            color: #7f8c8d;
+                        }
+
+                        .price {
+                            font-size: 1.1rem;
+                            font-weight: bold;
+                            color: #27ae60;
+                        }
+                    }
+                    .button-group {
+                        display: flex;
+                        justify-content: space-between;
+                    }
+                }
+            }
+        }
+    }
+}
 .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7); /* Полупрозрачный чёрный фон */
     display: flex;
     justify-content: center;
     align-items: center;
-    position: fixed;
-    z-index: 1000; /* Устанавливаем на верхний уровень */
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный фон */
+    z-index: 2000;
+    animation: fadeIn 0.3s ease-in-out;
+
+    .modal-content {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 2rem;
+        width: 90%;
+        max-width: 500px;
+        max-height: 85%;
+        overflow-y: auto;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        animation: slideIn 0.4s ease-in-out;
+        position: relative;
+
+        h3 {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            label {
+                font-weight: bold;
+                font-size: 1rem;
+                color: #34495e;
+                margin-bottom: 0.5rem;
+            }
+
+            input,
+            textarea {
+                padding: 0.8rem;
+                font-size: 1rem;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+
+                transition:
+                    border-color 0.3s ease,
+                    box-shadow 0.3s ease;
+
+                &:focus {
+                    outline: none;
+                    border-color: #27ae60;
+                    box-shadow: 0 0 8px rgba(39, 174, 96, 0.3);
+                }
+            }
+
+            .button-group {
+                display: flex;
+                justify-content: space-between;
+                gap: 1rem;
+
+                button {
+                    flex: 1;
+                    padding: 0.8rem;
+                    font-size: 1rem;
+                    border: none;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+
+                    &.submit-button {
+                        background: #27ae60;
+                        color: white;
+
+                        &:hover {
+                            background: #2ecc71;
+                            transform: translateY(-2px);
+                        }
+                    }
+
+                    &.cancel-button {
+                        background: #e74c3c;
+                        color: white;
+
+                        &:hover {
+                            background: #c0392b;
+                            transform: translateY(-2px);
+                        }
+                    }
+                }
+            }
+        }
+
+        .close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.8rem;
+            color: #e74c3c;
+            cursor: pointer;
+            transition:
+                transform 0.3s ease,
+                color 0.3s ease;
+
+            &:hover {
+                transform: scale(1.1);
+                color: #c0392b;
+            }
+        }
+    }
 }
 
-.modal-content {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    width: 400px; /* Ширина модального окна */
+/* Анимации */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
-/* Стили для форм */
-form {
-    display: flex;
-    flex-direction: column;
+@keyframes slideIn {
+    from {
+        transform: translateY(-30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
-/* Стили для полей ввода */
-input[type="text"],
-input[type="number"] {
-    padding: 10px;
-    margin: 5px 0; /* Отступы между полями */
-    border: 1px solid #ccc;
-    border-radius: 4px;
+/* Адаптивность */
+@media (max-width: 768px) {
+    .modal-content {
+        padding: 1.5rem;
+        max-width: 90%;
+    }
+
+    h3 {
+        font-size: 1.6rem;
+    }
+
+    input,
+    textarea {
+        font-size: 0.9rem;
+    }
 }
 
-/* Сетка карточек для блюд */
-.card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Адаптивная сетка */
-    gap: 20px; /* Отступы между карточками */
-    padding: 20px; /* Отступы вокруг сетки */
-}
+@media (max-width: 480px) {
+    .modal-content {
+        padding: 1rem;
+        max-width: 95%;
+    }
 
-/* Стили для карточек */
-.card {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s;
-}
+    h3 {
+        font-size: 1.4rem;
+    }
 
-.card:hover {
-    transform: scale(1.05); /* Увеличение карточки при наведении */
+    input,
+    textarea {
+        font-size: 0.85rem;
+    }
 }
-
-.card-img {
-    width: 100%; /* Адаптация изображения к карточке */
-    height: 150px; /* Высота изображения */
-    object-fit: cover; /* Обрезка изображения */
+.submit-btn {
+    margin-top: 5px;
 }
-
-.card-body {
-    padding: 10px; /* Отступы внутри карточки */
-}
-
-/* Стили для цен и категорий */
-.price {
-    color: green;
-    font-weight: bold;
-}
-
-.category {
-    font-style: italic;
-    color: #777;
-}
-
-/* Стили для кнопок в карточках */
-.button-group {
-    display: flex;
-    justify-content: space-between; /* Выравнивание кнопок */
-    margin-top: 10px; /* Отступ сверху */
-}
-
-button {
-    padding: 5px 10px; /* Внутренние отступы */
-    background-color: #007bff; /* Цвет кнопки */
-    color: white;
+/* Общий стиль для всех кнопок */
+.btn {
+    display: inline-block;
+    padding: 0.8rem 1.6rem;
+    font-size: 1rem;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.3s;
-}
+    transition:
+        background 0.3s ease,
+        transform 0.2s ease;
+    text-align: center;
 
-button:hover {
-    background-color: #0056b3; /* Цвет кнопки при наведении */
+    &:hover {
+        transform: translateY(-2px);
+    }
+
+    &:active {
+        transform: translateY(1px);
+    }
+
+    &.primary {
+        background: #27ae60;
+        color: white;
+
+        &:hover {
+            background: #2ecc71;
+        }
+    }
+
+    &.secondary {
+        background: #2980b9;
+        color: white;
+
+        &:hover {
+            background: #3498db;
+        }
+    }
+
+    &.danger {
+        background: #e74c3c;
+        color: white;
+
+        &:hover {
+            background: #c0392b;
+        }
+    }
+
+    &.outline {
+        background: transparent;
+        border: 2px solid currentColor;
+        color: #34495e;
+
+        &:hover {
+            background: #ecf0f1;
+        }
+    }
+
+    &.full-width {
+        width: 100%;
+    }
+
+    &.small {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.875rem;
+    }
+
+    &.large {
+        padding: 1rem 2rem;
+        font-size: 1.25rem;
+    }
 }

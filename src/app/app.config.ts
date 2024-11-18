@@ -6,7 +6,8 @@ import { provideFirebaseApp, initializeApp, getApps } from '@angular/fire/app';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { provideStorage, getStorage } from '@angular/fire/storage';
 import { routes } from './app.routes';
-import { provideAuth, getAuth } from '@angular/fire/auth'; // Импортируйте модуль аутентификации
+import { provideAuth, getAuth } from '@angular/fire/auth';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'; // Импортируйте модуль аутентификации
 
 
 const firebaseConfig = {
@@ -33,6 +34,6 @@ export const appConfig: ApplicationConfig = {
     }),
     provideFirestore(() => getFirestore()),
     provideStorage(() => getStorage()),
-    provideAuth(() => getAuth()) // Добавляем провайдер аутентификации
+    provideAuth(() => getAuth()), provideAnimationsAsync() // Добавляем провайдер аутентификации
   ]
 };
